@@ -7,24 +7,29 @@ import (
 
 //key collection
 const (
-	KeyInvalidated = "key/invalidated"
+	MsgKeyInvalidated = "invalidated"
+	MsgKeyUpdated     = "updated"
 )
 
-func subscribeKeyInvalidated(groupId string, cb func([]byte)) {
+const (
+	KeyTopic = "key"
+)
+
+func subscribeTopic(topic, groupId string, cb func(kafka.Message)) {
 	//subscribe to kafkaService client
 	client := getClient()
 	//onresult
 	//parse result
-	client.subscribe(KeyInvalidated, groupId, func(msg kafka.Message) {
-		fmt.Println("Some thing do it : ", KeyInvalidated, string(msg.Value))
-		cb(msg.Value)
+	client.subscribe(topic, groupId, func(msg kafka.Message) {
+		cb(msg)
+		fmt.Println("Some thing do it : ", KeyTopic, string(msg.Value))
 	})
 	//callback("keyID")
 }
-func PublishToKeyInvalidated(exchange string, keyID string) {
+func PublishToKeyInvalidated(KeyTopic string, keyID string) {
 	msg := []byte(keyID)
 	client := getClient()
-	err := client.publish(exchange, KeyInvalidated, msg)
+	err := client.publish(KeyTopic, MsgKeyInvalidated, msg)
 	if err != nil {
 		fmt.Println(err)
 		return

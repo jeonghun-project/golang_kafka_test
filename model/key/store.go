@@ -29,3 +29,7 @@ func GetByID(id primitive.ObjectID) (*Key, error) {
 func DeleteByKeyId(keyId primitive.ObjectID) {
 	fmt.Println("delete in MongoDB: ", keyId)
 }
+
+func UpdateByKeyId(keyId primitive.ObjectID) {
+	fmt.Println("update in mongoDB: ", keyId)
+}
