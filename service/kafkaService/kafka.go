@@ -104,7 +104,6 @@ func (c *Client) subscribe(topic, groupId string, cb func(msg kafka.Message)) {
 			fmt.Println("Read messge Error: ", err)
 			return
 		}
-		fmt.Printf("message at offset %d: %s = %s\n", m.Offset, string(m.Key), string(m.Value))
 		cb(m)
 	}
 }

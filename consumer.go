@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 func init() {
@@ -28,6 +29,8 @@ func main() {
 		cancel()
 	}()
 	kafkaService.Connect()
+
+	time.Sleep(5 * time.Minute)
 
 	// TODO: kafkaService-go
 	//topic := "test"

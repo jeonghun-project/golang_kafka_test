@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 func init() {
@@ -19,7 +20,7 @@ func main() {
 	signal.Notify(signals, syscall.SIGINT, syscall.SIGKILL)
 
 	ctx, cancel := context.WithCancel(context.Background())
-
+	defer ctx.Done()
 	// go routine for getting signals asynchronously
 	go func() {
 		sig := <-signals
@@ -28,7 +29,9 @@ func main() {
 	}()
 
 	kafkaService.Connect()
-	defer ctx.Done()
+
+	time.Sleep(5 * time.Minute)
+
 	// TODO: kafkaService-go
 	//topic := "test"
 	//brokerAddress := "localhost:9092"
